@@ -1,0 +1,36 @@
+{
+    "name": "Torrent RSS Manager - Below9k",
+    "version": "0.1.0",
+    "manifest_version": 2,
+    "description": "Adds torrent links to rss feed for downloading",
+    "homepage_url": "http://below9k.com",
+    "icons": {
+        "16": "icons/icon16.png",
+        "48": "icons/icon48.png",
+        "128": "icons/icon128.png"
+    },
+    "default_locale": "en",
+    "background": {
+        "scripts": [
+            "js/jquery-1.11.3.min.js",
+            "js/parse_link.js",
+            "js/xml2json.min.js",
+            "src/bg/background.js"
+        ],
+        "persistent": true
+    },
+    "browser_action": {
+        "default_icon": "icons/icon19.png",
+        "default_title": "Below9k Torrent RSS Feed Manager",
+        "default_popup": "src/browser_action/browser_action.html"
+    },
+    "permissions": [
+        "clipboardRead",
+        "clipboardWrite",
+        "contentSettings",
+        "contextMenus",
+        "notifications",
+        "https://*/* ",
+        "http://*/*"
+    ]
+}
