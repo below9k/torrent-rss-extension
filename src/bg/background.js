@@ -18,6 +18,9 @@ $(document).ready(function() {
     chrome.contextMenus.create({
         "title": "Add Link",
         "contexts": ["selection", "link"],
-        "onclick": clickHandler
+        "onclick": function() {
+            // popup('');
+            console.log('disabled. need to check categories');
+        }
     });
 });

@@ -21,6 +21,9 @@ $(document).ready(function() {
             if (data.warning)
                 style = 'warning';
             $('.status span').html('<b class=' + style + '>' + data.message + '</b>');
+            setTimeout(function(){
+                window.close();
+            }, 700);
         }).fail(function() {
             $('.status span').html('<b class="error">Failed..</b>');
         });
@@ -50,8 +53,15 @@ $(document).ready(function() {
             if (parsedLink.hash.length > 0) {
                 $('.hash').val(parsedLink.hash).parent().addClass('inputFilled');
                 $('label[for="hash_input"]').text(parsedLink.hash).parent().addClass('inputFilled');
-                if (parsedLink.title.toLowerCase().indexOf('hdtv') !== -1)
+                if (parsedLink.title.toLowerCase().indexOf('hdtv') !== -1 ||
+                    parsedLink.title.toLowerCase().indexOf('season') !== -1)
                     $('.category').val('TV Shows');
+                else if(parsedLink.title.toLowerCase().indexOf('anime') !== -1 ||
+                        parsedLink.title.toLowerCase().indexOf('horriblesubs') !== -1 ||
+                        parsedLink.title.toLowerCase().indexOf('bakedfish') !== -1 ||
+                        parsedLink.title.toLowerCase().indexOf('horriblesubs') !== -1 ||
+                        parsedLink.title.toLowerCase().indexOf('fansub') !== -1)
+                    $('.category').val('Anime');
                 else
                     $('.category').val('Movies'); // Default
             }
