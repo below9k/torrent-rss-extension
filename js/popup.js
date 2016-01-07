@@ -1,46 +1,58 @@
 $(document).ready(function() {
-    $('.pasteField').focus();
+    $('.loading').hide();
+    $('.paste-field').focus();
 
     document.execCommand('paste');
 
     $('button').click(function(event) {
-
+        $('.loading').show();
         $.post('http://below9k.info/add_rss_entry.php', {
             title: $('.title').val(),
             category: $('.category').val(),
             link: $('.link').val(),
-            pubDate: new Date().toISOString(),
+            pubDate: new Date().toUTCString(),
             description: $('.description').val(),
-            hash: $('.hash').val()
+            hash: $('.hash').val(),
+            version: 1
         }, function(data) {
             var style = 'success';
-            if(typeof data !== 'object')
+            if (typeof data !== 'object') {
+                console.log(data);
                 data = JSON.parse(data);
-            if (data.error)
+            }
+            if (data.error) {
                 style = 'error';
-            if (data.warning)
+                data.message = '<i class="fa fa-times"></i>&nbsp;' + data.message;
+            }
+            if (data.warning) {
                 style = 'warning';
-            $('.status span').html('<b class=' + style + '>' + data.message + '</b>');
-            setTimeout(function(){
-                window.close();
-            }, 700);
+                data.message = '<i class="fa fa-warning"></i>&nbsp;' + data.message;
+            }
+            if (style === 'success')
+                data.message = '<i class="fa fa-check"></i>&nbsp;' + data.message;
+
+            $('.loading').hide();
+            $('button').addClass(style).html(data.message);
+            // if (style === 'success')
+            //     setTimeout(function() {
+            //         window.close();
+            //     }, 700);
         }).fail(function() {
-            $('.status span').html('<b class="error">Failed..</b>');
+            $('.loading').hide();
+            $('button').addClass('error').html('Failed to connect to server. Try again.');
         });
     });
 
-    $('.inputField').change(function(event) {
+    $('.input-field').change(function(event) {
         if ($(event.target).val().length > 0) {
-            console.log('filled');
-            $(event.target).parent().addClass('inputFilled');
+            $(event.target).parent().addClass('input-filled');
         } else {
-            console.log('unfilled');
-            $(event.target).parent().removeClass('inputFilled');
+            $(event.target).parent().removeClass('input-filled');
         }
     });
 
     // This is out of window/view
-    $('.pasteField').change(function(event) {
+    $('.paste-field').change(function(event) {
         var link = $(event.target).val(),
             parsedLink;
 
@@ -48,25 +60,24 @@ $(document).ready(function() {
 
         if (parsedLink) {
 
-            if (parsedLink.title.length > 0) $('.title').val(parsedLink.title).parent().addClass('inputFilled');
-            if (link.length > 0) $('.link').val(link).parent().addClass('inputFilled');
+            if (parsedLink.title.length > 0) $('.title').val(parsedLink.title).parent().addClass('input-filled');
+            if (link.length > 0) $('.link').val(link).parent().addClass('input-filled');
             if (parsedLink.hash.length > 0) {
-                $('.hash').val(parsedLink.hash).parent().addClass('inputFilled');
-                $('label[for="hash_input"]').text(parsedLink.hash).parent().addClass('inputFilled');
+                $('.hash').val(parsedLink.hash).parent().addClass('input-filled');
+                $('label[for="hash_input"]').text(parsedLink.hash).parent().addClass('input-filled');
                 if (parsedLink.title.toLowerCase().indexOf('hdtv') !== -1 ||
                     parsedLink.title.toLowerCase().indexOf('season') !== -1)
                     $('.category').val('TV Shows');
-                else if(parsedLink.title.toLowerCase().indexOf('anime') !== -1 ||
-                        parsedLink.title.toLowerCase().indexOf('horriblesubs') !== -1 ||
-                        parsedLink.title.toLowerCase().indexOf('bakedfish') !== -1 ||
-                        parsedLink.title.toLowerCase().indexOf('horriblesubs') !== -1 ||
-                        parsedLink.title.toLowerCase().indexOf('fansub') !== -1)
+                else if (parsedLink.title.toLowerCase().indexOf('anime') !== -1 ||
+                    parsedLink.title.toLowerCase().indexOf('horriblesubs') !== -1 ||
+                    parsedLink.title.toLowerCase().indexOf('bakedfish') !== -1 ||
+                    parsedLink.title.toLowerCase().indexOf('deadfish') !== -1 ||
+                    parsedLink.title.toLowerCase().indexOf('horriblesubs') !== -1 ||
+                    parsedLink.title.toLowerCase().indexOf('fansub') !== -1)
                     $('.category').val('Anime');
                 else
                     $('.category').val('Movies'); // Default
             }
-
-            console.log('updated', parsedLink);
 
         } else {
             console.log('not a magnet link in clipboard.');

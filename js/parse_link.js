@@ -65,5 +65,3 @@ var parseLink = function(linkUrl,pageUrl) {
 	    }
     }
 }
-
-console.log('parse_link imported');

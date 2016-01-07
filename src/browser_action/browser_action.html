@@ -3,6 +3,7 @@
 <script src="../../js/parse_link.js"></script>
 <script src="../../js/popup.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="loading.css">
 <style type="text/css">
 article,
 aside,
@@ -259,7 +260,7 @@ input[type=date]:focus {
     margin: 1em 0;
 }
 
-.inputField {
+.input-field {
     position: relative;
     display: block;
     float: right;
@@ -274,11 +275,11 @@ input[type=date]:focus {
     /* for box shadows to show on iOS */
 }
 
-.inputField:focus {
+.input-field:focus {
     outline: none;
 }
 
-.inputLabel {
+.input-label {
     display: inline-block;
     float: right;
     padding: 0 1em;
@@ -296,7 +297,7 @@ input[type=date]:focus {
     user-select: none;
 }
 
-.inputLabelContent {
+.inputlabel-content {
     position: relative;
     display: block;
     padding: 1.6em 0;
@@ -318,7 +319,7 @@ input[type=date]:focus {
 
 /* Yoshiko */
 
-.inputField-y {
+.input-field-y {
     width: 100%;
     background-color: #d0d1d0;
     border: 2px solid transparent;
@@ -326,7 +327,7 @@ input[type=date]:focus {
     transition: background-color 0.3s, border-color 0.3s;
 }
 
-.inputLabel-y {
+.input-label-y {
     width: 100%;
     text-align: left;
     left: 0.5em;
@@ -341,7 +342,7 @@ input[type=date]:focus {
     transition: transform 0.3s;
 }
 
-.inputLabelContent-y {
+.inputlabel-content-y {
     color: #8B8C8B;
     padding: 0.25em 0;
     -webkit-transition: -webkit-transform 0.3s;
@@ -350,7 +351,7 @@ input[type=date]:focus {
     left: -1em;
 }
 
-.inputLabelContent-y::after {
+.inputlabel-content-y::after {
     content: attr(dataContent);
     position: absolute;
     font-weight: 800;
@@ -364,34 +365,35 @@ input[type=date]:focus {
     font-size: 0.85em;
 }
 
-.inputField-y:focus + .inputLabel-y,
-.inputFilled .inputLabel-y {
+.input-field-y:focus + .input-label-y,
+.input-filled .input-label-y {
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
 }
 
-.inputField-y:focus + .inputLabel-y .inputLabelContent-y,
-.inputFilled .inputLabelContent-y {
+.input-field-y:focus + .input-label-y .inputlabel-content-y,
+.input-filled .inputlabel-content-y {
     -webkit-transform: translate3d(0, 100%, 0);
     transform: translate3d(0, 100%, 0);
 }
 
-.inputField-y:focus + .inputField-y,
-.inputFilled .inputField-y {
+.input-field-y:focus + .input-field-y,
+.input-filled .input-field-y {
     background-color: transparent;
     border-color: #a3d39c;
 }
 
-#mainPopup {
+#main-popup {
     background-color: #888;
     display: flex;
     justify-content: center;
     align-items: center;
     min-width: 350px;
     padding-top: 1em;
+    position: relative;
 }
 
-#mainPopup > .torrent {
+#main-popup > .add-torrent {
     width: 70%;
     display: flex;
     flex-wrap: nowrap;
@@ -399,33 +401,27 @@ input[type=date]:focus {
     position: relative;
 }
 
-#mainPopup > .torrent > button {
+#main-popup > .add-torrent > button {
     margin: 7px 0;
     background-color: #222;
     position: relative;
     color: #a3d39c;
+    min-height: 3em;
 }
 
-.status {
-    height: 3em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.status .error {
+#main-popup > .add-torrent > button.error {
     color: #C31D31;
     border: #986868 2px solid;
     padding: 7px;
 }
 
-.status .success {
-    color: #063801;
+#main-popup > .add-torrent > button.success {
+    color: #189C0B;
     border: #687969 2px solid;
     padding: 7px;
 }
 
-.status .warning {
+#main-popup > .add-torrent > button.warning {
     color: #E6E615;
     border: #9E9E4E 2px solid;
     padding: 7px;
@@ -442,47 +438,54 @@ Table Scheme: (* required)
     link varchar(255)*
 ===========================
 -->
-<input class="pasteField" type="text" style="position:absolute;left:-25em;" />
-<div id="mainPopup">
-    <div class="torrent">
+<input class="paste-field" type="text" style="position:absolute;left:-25em;" />
+<div id="main-popup">
+    <div class="loading">
+        <div class='uil-ellipsis-css'>
+            <div class="circle">
+                <div></div>
+            </div>
+            <div class="circle">
+                <div></div>
+            </div>
+            <div class="circle">
+                <div></div>
+            </div>
+            <div class="circle">
+                <div></div>
+            </div>
+        </div>
+    </div>
+    <div class="add-torrent">
         <span class="input title-wrapper">
-            <input type="text" maxlength="255" class="inputField inputField-y title" id="titleInput" name="titleInput" />
-            <label class="inputLabel inputLabel-y" for="titleInput">
-                <span class="inputLabelContent inputLabelContent-y" dataContent="Title">Title</span>
+            <input type="text" maxlength="255" class="input-field input-field-y title" id="title-input" name="title-input" />
+            <label class="input-label input-label-y" for="title-input">
+                <span class="inputlabel-content inputlabel-content-y" dataContent="Title">Title</span>
         </label>
         </span>
-        <span class="input category-wrapper inputFilled">
-            <select class="inputField inputField-y category" id="categoryInput" name="categoryInput">
+        <span class="input category-wrapper input-filled">
+            <select class="input-field input-field-y category" id="category-input" name="category-input">
                 <option value="Movies" selected="true">Movie</option>
                 <option value="TV Shows">TV Show</option>
                 <option value="Anime">Anime</option>
             </select>
-            <label class="inputLabel inputLabel-y" for="categoryInput">
-                <span class="inputLabelContent inputLabelContent-y" dataContent="Category">Category</span>
+            <label class="input-label input-label-y" for="category-input">
+                <span class="inputlabel-content inputlabel-content-y" dataContent="Category">Category</span>
         </label>
         </span>
         <span class="input description-wrapper">
-            <input type="text" class="inputField inputField-y description" id="descriptionInput" name="descriptionInput">
-            <label class="inputLabel inputLabel-y" for="descriptionInput">
-                <span class="inputLabelContent inputLabelContent-y" dataContent="Description">Description</span>
+            <input type="text" class="input-field input-field-y description" id="desc-input" name="desc-input">
+            <label class="input-label input-label-y" for="desc-input">
+                <span class="inputlabel-content inputlabel-content-y" dataContent="Description">Description</span>
         </label>
         </span>
         <span class="input link-wrapper">
-            <input type="text" maxlength="255" class="inputField inputField-y link" id="linkInput" name="linkInput">
-            <label class="inputLabel inputLabel-y" for="linkInput">
-                <span class="inputLabelContent inputLabelContent-y" dataContent="Link">Link</span>
+            <input type="text" maxlength="255" class="input-field input-field-y link" id="link-input" name="link-input">
+            <label class="input-label input-label-y" for="link-input">
+                <span class="inputlabel-content inputlabel-content-y" dataContent="Link">Link</span>
         </label>
         </span>
-        <input type="hidden" class="inputField inputField-y hash" id="hashInput" name="hashInput">
-        <!-- <span class="input hash-wrapper">
-            <input type="text" maxlength="255" class="inputField inputField-y hash" id="hashInput" name="hashInput">
-            <label class="inputLabel inputLabel-y" for="hashInput">
-                <span class="inputLabelContent inputLabelContent-y" dataContent="Hash">Hash</span>
-        </label>
-        </span> -->
-        <button class="input inputField inputField-y"><i class="fa fa-plus fa-fw"></i>Add Torrent</button>
-        <div class="status">
-            <span></span>
-        </div>
+        <input type="hidden" class="input-field input-field-y hash" id="hash-input" name="hash-input">
+        <button class="input input-field input-field-y"><i class="fa fa-plus fa-fw"></i>Add Torrent</button>
     </div>
 </div>

@@ -1,7 +1,7 @@
 {
     "name": "Torrent RSS Manager - Below9k",
-    "version": "0.2.0",
-    "manifest_version": 2,
+    "version": "1.0.2",
+    "manifest_version": 3,
     "description": "Adds torrent links to rss feed for downloading",
     "homepage_url": "http://below9k.com",
     "icons": {
