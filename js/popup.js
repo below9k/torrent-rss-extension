@@ -73,7 +73,8 @@ $(document).ready(function() {
                     parsedLink.title.toLowerCase().indexOf('bakedfish') !== -1 ||
                     parsedLink.title.toLowerCase().indexOf('deadfish') !== -1 ||
                     parsedLink.title.toLowerCase().indexOf('horriblesubs') !== -1 ||
-                    parsedLink.title.toLowerCase().indexOf('fansub') !== -1)
+                    parsedLink.title.toLowerCase().indexOf('fansub') !== -1 ||
+                    parsedLink.title.toLowerCase().indexOf('subs') !== -1)
                     $('.category').val('Anime');
                 else
                     $('.category').val('Movies'); // Default
